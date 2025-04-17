@@ -4,6 +4,7 @@ from qdrant_client import QdrantClient
 from qdrant_client.http import models
 from sentence_transformers import SentenceTransformer
 from typing import List, Optional
+import torch
 import uvicorn
 
 app = FastAPI(title="Semantic Search Service")
@@ -13,6 +14,8 @@ qdrant_client = QdrantClient(host="localhost", port=6333)
 
 # Initialize the sentence transformer model
 model = SentenceTransformer('all-MiniLM-L6-v2')
+device = torch.device('cpu')
+model = model.to(device)
 
 # Create collection if it doesn't exist
 try:
